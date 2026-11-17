@@ -44,7 +44,21 @@ export function useTenantsCreate() {
       await api.post("/tenants", tenant);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["tenants"] });
+      queryClient.invalidateQueries({ queryKey: ["tenants"] });
+    },
+  });
+}
+
+export function useTenantsUpdate(id: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (tenant: TenantFormData): Promise<void> => {
+      await api.put(`/tenants/${id}`, tenant);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tenants"] });
+      queryClient.invalidateQueries({ queryKey: ["tenantId", id] });
     },
   });
 }

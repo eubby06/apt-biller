@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import type { TenantFormData } from "./types";
 import { useNavigate, useParams } from "react-router-dom";
-import { useTenantsCreate, useTenantsById } from "./useTenants";
+import { useTenantsUpdate, useTenantsById } from "./useTenants";
 import TenantForm from "./TenantForm";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
   const { tenantId } = useParams<{ tenantId: string }>();
-  const createTenant = useTenantsCreate();
+  const updateTenant = useTenantsUpdate(Number(tenantId));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const parsedTenantId = Number(tenantId);
   const {
@@ -37,7 +37,7 @@ const App: React.FC = () => {
 
   const handleSubmit = (payload: TenantFormData) => {
     setIsSubmitting(true);
-    createTenant.mutate(payload, {
+    updateTenant.mutate(payload, {
       onSuccess: () => {
         setIsSubmitting(false);
         navigate(`/tenants`);

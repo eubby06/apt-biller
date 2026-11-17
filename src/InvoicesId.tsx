@@ -53,8 +53,10 @@ const App: React.FC = () => {
 
       <div className="w-full mx-auto p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
         Hi {tenant.name}, mao ni ang bills for this month:{" "}
-        {invoice.electricity_amount}(31kwh), {invoice.water_amount}(water),
-        6000(rent), 500(net) and total is {invoice.total}. Thanks.
+        {invoice.electricity_amount}(
+        {invoice.curr_reading - invoice.prev_reading}kwh),{" "}
+        {invoice.water_amount}(water), 6000(rent), 500(net) and total is{" "}
+        {invoice.total}. Thanks.
       </div>
     </>
   );

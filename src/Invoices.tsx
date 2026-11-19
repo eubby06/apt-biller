@@ -24,8 +24,9 @@ const App: React.FC = () => {
     error,
   } = useInvoicesByTenantId(Number(tenantId));
 
-  if (isLoading) return <div>Loading profile...</div>;
+  if (isLoading) return <div>Loading invoices...</div>;
   if (isError) return <div>Error: {error.message}</div>;
+  if (!invoices) return <div>No invoices found.</div>;
   return (
     <>
       <div className="flex items-center justify-between pb-3">

@@ -12,6 +12,7 @@ export type InvoiceStatus = "pending" | "paid";
 
 export interface Invoice {
   id: number;
+  tenant_id: number;
   prev_date: string;
   prev_reading: number;
   curr_date: string;
@@ -25,6 +26,7 @@ export interface Invoice {
   internet_amount: number;
   total: number;
   status: InvoiceStatus;
+  tenant: Tenant | null;
 }
 
 export interface CreateInvoiceInput {

@@ -84,9 +84,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         {/* Main content adjusts left margin on desktop to clear the fixed sidebar */}
         <div className="flex flex-col flex-grow md:pl-64">
-          <main className="flex-grow p-6 max-w-7xl w-full mx-auto">
-            {children}
-          </main>
+          <main className="flex-grow p-6 w-full mx-auto">{children}</main>
           <Footer />
         </div>
       </div>

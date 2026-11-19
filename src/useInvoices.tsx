@@ -52,3 +52,21 @@ export function useInvoicesCreate() {
     },
   });
 }
+
+export function useInvoicesByStatus({
+  params,
+}: {
+  params: { status: string };
+}) {
+  return useQuery({
+    queryKey: ["unpaidInvoices"],
+    queryFn: async (): Promise<Invoice[]> => {
+      const response = await api.get("/invoices", {
+        params: params,
+      });
+
+      return response.data.data;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+}

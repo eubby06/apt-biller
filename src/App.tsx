@@ -8,13 +8,9 @@ import Invoices from "./Invoices";
 import InvoicesCreate from "./InvoicesCreate";
 import InvoicesId from "./InvoicesId";
 import Login from "./Login";
+import Dashboard from "./Dashboard";
 
 import { ProtectedRoute } from "./ProtectedRoute";
-
-// Mock Page Components
-const Dashboard = () => (
-  <div className="p-4 bg-white rounded shadow">Dashboard Content</div>
-);
 
 // 1. Define your routing tree structure
 const router = createBrowserRouter([

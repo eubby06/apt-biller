@@ -62,3 +62,16 @@ export function useTenantsUpdate(id: number) {
     },
   });
 }
+
+export function useTenantsRemove() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number): Promise<void> => {
+      await api.delete(`/tenants/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tenants"] });
+    },
+  });
+}

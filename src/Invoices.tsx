@@ -18,11 +18,17 @@ const App: React.FC = () => {
   };
 
   const deleteInvoice = (invoiceId: number) => {
-    removeInvoice.mutate(invoiceId, {
-      onSuccess: () => {
-        navigation(`/tenants/${tenantId}/invoices`);
-      },
-    });
+    const confirmed = window.confirm(
+      `Are you sure you want to delete Invoice #${invoiceId}?`,
+    );
+
+    if (confirmed) {
+      removeInvoice.mutate(invoiceId, {
+        onSuccess: () => {
+          navigation(`/tenants/${tenantId}/invoices`);
+        },
+      });
+    }
   };
 
   const {

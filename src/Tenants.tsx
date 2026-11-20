@@ -1,20 +1,34 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import { useTenants } from "./useTenants";
+import { useTenants, useTenantsRemove } from "./useTenants";
 import type { Tenant } from "./types";
 import { isAlmostDue, formatMonthDay } from "./dueDate";
 
 const App: React.FC = () => {
   const { data: tenants, isLoading, isError, error } = useTenants();
   const navigation = useNavigate();
-
+  const removeTenant = useTenantsRemove();
   const showInvoices = (id: number) => {
     navigation(`/tenants/${id}/invoices`);
   };
 
   const newTenant = () => {
     navigation("/tenants/create");
+  };
+
+  const deleteTenant = (tenantId: number) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete Tenant #${tenantId}?`,
+    );
+
+    if (confirmed) {
+      removeTenant.mutate(tenantId, {
+        onSuccess: () => {
+          return navigation(`/tenants`);
+        },
+      });
+    }
   };
 
   if (isLoading) return <div>Loading profile...</div>;
@@ -99,6 +113,14 @@ const App: React.FC = () => {
                         className="px-2 text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition-colors"
                       >
                         Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          deleteTenant(Number(tenant.id));
+                        }}
+                        className="px-2 text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition-colors"
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>

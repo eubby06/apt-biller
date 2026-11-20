@@ -40,12 +40,39 @@ export function useInvoicesById(id: number) {
   });
 }
 
+export function useInvoicesRemove() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (invoiceId: number): Promise<void> => {
+      await api.delete(`/invoices/${invoiceId}`);
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["invoicesByTenant"] });
+      void queryClient.invalidateQueries({ queryKey: ["invoices"] });
+    },
+  });
+}
+
 export function useInvoicesCreate() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (invoice: InvoiceFormData): Promise<void> => {
       await api.post("/invoices", invoice);
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["invoicesByTenant"] });
+    },
+  });
+}
+
+export function useInvoicesUpdate() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (invoice: InvoiceFormData): Promise<void> => {
+      await api.put(`/invoices/${invoice.id}`, invoice);
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["invoicesByTenant"] });

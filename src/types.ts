@@ -36,6 +36,7 @@ export interface InvoiceFormData {
   prev_reading: number;
   curr_date: string | null;
   curr_reading: number;
+  status: string;
 }
 
 export interface TenantFormData {

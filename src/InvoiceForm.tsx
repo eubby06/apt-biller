@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { InvoiceFormData, Tenant } from "./types";
 import { useTenants } from "./useTenants";
 import { useInvoicesByTenantId } from "./useInvoices";
@@ -24,7 +24,7 @@ export default function InvoiceForm({
 }: InvoiceFormProps) {
   const { data: tenants, isLoading, isError, error } = useTenants();
   const { tenantId } = useParams<{ tenantId: string }>();
-
+  const navigation = useNavigate();
   const {
     data: invoices,
     isLoading: isInvoicesLoading,
@@ -38,8 +38,9 @@ export default function InvoiceForm({
   const prevReadingInput =
     initialData?.prev_reading ??
     (lastInvoice ? String(lastInvoice.curr_reading) : "");
-
+  const invoiceId = initialData?.id ?? null;
   const [stateTenantId, setStateTenantId] = useState(tenantId);
+  const [status, setStatus] = useState("unpaid");
   const [prevDate, setPrevDate] = useState(prevDateInput);
   const [prevReading, setPrevReading] = useState(prevReadingInput);
   const [currDate, setCurrDate] = useState(initialData?.curr_date ?? null);
@@ -50,11 +51,13 @@ export default function InvoiceForm({
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
+      id: Number(invoiceId),
       tenant_id: Number(stateTenantId),
       prev_date: prevDate,
       prev_reading: Number(prevReading),
       curr_date: currDate,
       curr_reading: Number(currReading),
+      status: status,
     });
   };
 
@@ -79,7 +82,7 @@ export default function InvoiceForm({
                 setPrevDate("");
                 setPrevReading(0);
               }}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !!initialData?.tenant_id}
               className={INPUT_CLASSES}
             >
               <option value="" disabled>
@@ -152,9 +155,46 @@ export default function InvoiceForm({
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Saving..." : submitLabel}
-          </Button>
+          <div>
+            <label htmlFor="tenant" className={LABEL_CLASSES}>
+              Status
+            </label>
+            <select
+              id="tenant"
+              required
+              value={status}
+              onChange={(e) => {
+                setStatus(e.target.value);
+              }}
+              disabled={isSubmitting}
+              className={INPUT_CLASSES}
+            >
+              <option value="" disabled>
+                Select a tenant
+              </option>
+              {["paid", "unpaid"].map((status: string) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-row gap-4">
+            <Button
+              type="button"
+              onClick={() => {
+                navigation(`/tenants/${stateTenantId}/invoices`);
+              }}
+              className="w-full"
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Saving..." : submitLabel}
+            </Button>
+          </div>
         </form>
       </div>
     </>

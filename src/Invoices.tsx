@@ -1,13 +1,13 @@
 import React from "react";
 import Button from "./Button";
 import { useNavigate, useParams } from "react-router-dom";
-import { useInvoicesByTenantId } from "./useInvoices";
+import { useInvoicesByTenantId, useInvoicesRemove } from "./useInvoices";
 import type { Invoice } from "./types";
 import FormatTimestamp from "./FormatTimestamp";
 
 const App: React.FC = () => {
   const navigation = useNavigate();
-
+  const removeInvoice = useInvoicesRemove();
   const { tenantId } = useParams<{ tenantId: string }>();
   const newInvoice = () => {
     navigation(`/tenants/${tenantId}/invoices/create`);
@@ -15,6 +15,14 @@ const App: React.FC = () => {
 
   const editInvoice = (invoiceId: number) => {
     navigation(`/tenants/${tenantId}/invoices/${invoiceId}`);
+  };
+
+  const deleteInvoice = (invoiceId: number) => {
+    removeInvoice.mutate(invoiceId, {
+      onSuccess: () => {
+        navigation(`/tenants/${tenantId}/invoices`);
+      },
+    });
   };
 
   const {
@@ -108,6 +116,12 @@ const App: React.FC = () => {
                       className="px-2 text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition-colors"
                     >
                       Edit
+                    </button>
+                    <button
+                      onClick={() => deleteInvoice(invoice.id)}
+                      className="px-2 text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition-colors"
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>

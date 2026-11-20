@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
-import type { CreateInvoiceInput, Invoice } from "./types";
+import type { InvoiceFormData, Invoice } from "./types";
 
 export function useInvoicesByTenantId(id: number) {
   return useQuery({
@@ -44,7 +44,7 @@ export function useInvoicesCreate() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (invoice: CreateInvoiceInput): Promise<void> => {
+    mutationFn: async (invoice: InvoiceFormData): Promise<void> => {
       await api.post("/invoices", invoice);
     },
     onSuccess: () => {

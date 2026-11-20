@@ -6,15 +6,15 @@ import type { Invoice } from "./types";
 import FormatTimestamp from "./FormatTimestamp";
 
 const App: React.FC = () => {
-  const navigate = useNavigate();
+  const navigation = useNavigate();
 
   const { tenantId } = useParams<{ tenantId: string }>();
   const newInvoice = () => {
-    navigate(`/tenants/${tenantId}/invoices/create`);
+    navigation(`/tenants/${tenantId}/invoices/create`);
   };
 
   const editInvoice = (invoiceId: number) => {
-    navigate(`/tenants/${tenantId}/invoices/${invoiceId}`);
+    navigation(`/tenants/${tenantId}/invoices/${invoiceId}`);
   };
 
   const {
@@ -97,7 +97,17 @@ const App: React.FC = () => {
                       onClick={() => editInvoice(invoice.id)}
                       className="text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition-colors"
                     >
-                      Send SMS
+                      Generate
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigation(
+                          `/tenants/${invoice.tenant?.id}/invoices/${invoice.id}/edit`,
+                        );
+                      }}
+                      className="px-2 text-sm font-semibold text-indigo-600 hover:text-indigo-900 transition-colors"
+                    >
+                      Edit
                     </button>
                   </td>
                 </tr>

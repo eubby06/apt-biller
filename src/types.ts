@@ -29,11 +29,12 @@ export interface Invoice {
   tenant: Tenant | null;
 }
 
-export interface CreateInvoiceInput {
+export interface InvoiceFormData {
+  id?: number;
   tenant_id: number;
-  prev_date: string;
+  prev_date: string | null;
   prev_reading: number;
-  curr_date: string;
+  curr_date: string | null;
   curr_reading: number;
 }
 

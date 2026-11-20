@@ -7,6 +7,7 @@ import TenantsEdit from "./TenantsEdit";
 import Invoices from "./Invoices";
 import InvoicesCreate from "./InvoicesCreate";
 import InvoicesId from "./InvoicesId";
+import InvoicesIdSms from "./InvoicesIdSms";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
           },
           {
             path: "tenants/:tenantId/invoices/:invoiceId",
+            element: <InvoicesIdSms />,
+          },
+          {
+            path: "tenants/:tenantId/invoices/:invoiceId/edit",
             element: <InvoicesId />,
           },
         ],

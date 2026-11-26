@@ -48,3 +48,12 @@ export interface TenantFormData {
   rent_amount: number;
   internet_plan: string;
 }
+
+export interface Settings {
+  tenant_id: number;
+  water_rate: number;
+  electricity_rate: number;
+  internet_lowspeed_rate: number;
+  internet_highspeed_rate: number;
+  parking_rate: number;
+}

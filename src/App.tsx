@@ -10,6 +10,7 @@ import InvoicesId from "./InvoicesId";
 import InvoicesIdSms from "./InvoicesIdSms";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
+import Settings from "./Settings";
 
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Dashboard />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
           },
           {
             path: "tenants",

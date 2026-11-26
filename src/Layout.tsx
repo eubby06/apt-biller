@@ -27,6 +27,12 @@ const Sidebar: React.FC = () => {
           >
             Tenants
           </Link>
+          <Link
+            to="/settings"
+            className="flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-slate-800 hover:text-white transition"
+          >
+            Settings
+          </Link>
         </nav>
       </div>
     </aside>
